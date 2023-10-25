@@ -1,0 +1,53 @@
+<!--
+   canvas1.html
+   
+   Copyright 2023 Aaron <aaron@localhost.localdomain>
+   
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+   
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+   
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+   MA 02110-1301, USA.
+   
+   
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+	<title>rollcanvas</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<meta name="generator" content="Geany 1.38" />
+</head>
+
+<body>
+	<canvas id="can"></canvas>
+	<script>
+		var x = 0;
+		function draw() {
+			var ctx= (document.getElementById("can")).getContext("2d");
+			ctx.fillStyle="#FF0000";
+			ctx.clearRect(x,0,150,75);
+			x+=10;
+			if(x == 200) {
+				x = 0;
+			}
+			ctx.fillRect(x,0,150,75);
+			setTimeout(draw,1000);
+		}
+		draw();
+	</script>
+</body>
+
+</html>
