@@ -16,7 +16,7 @@ int weight[6] = {1,2,3,5,10,20};
 
 int main() {
 	int t = 0,cnt = 0;
-	for(int i = 0;i<=6;i++) {
+	for(int i = 0;i<6;i++) {
 		int si;
 		cin>>si;
 		cnt += si * weight[i];
@@ -37,15 +37,24 @@ int main() {
 	for(int i = 1;i<=t;i++) {
 		for(int j = 1;j<=cnt;j++) {
 			if(dp[j - 1][i] < dp[j][i]) {
+				dp[j + 1][i] = max(dp[j+1][i],dp[j][i]);
+				dp[j][i+1] = max(dp[j][i + 1],dp[j][i]);
 				continue;
 			}
-			dp[j][i] = dp[j - 1][i];
-			if(j-c[t] >= 0 && (j - c[t] == 0 || dp[j - c[t]][i - 1] >= dp[j - c[t] - 1][i - 1])) {
+			//dp[j][i] = dp[j - 1][i];
+			if(j-c[i] >= 0 && (j - c[i] == 0 || dp[j - c[i]][i - 1] > dp[j - c[i] - 1][i - 1])) {
 				dp[j][i]++;
 			}
-			dp[j + 1][i] = dp[j][i];
-			dp[j][i+1] = dp[j][i];
+			dp[j + 1][i] = max(dp[j+1][i],dp[j][i]);
+			dp[j][i+1] = max(dp[j][i + 1],dp[j][i]);
 		}
+	}
+	for(int i = 1;i<=t;i++) {
+		for(int j = 1;j<=cnt;j++) {
+			cout << dp[j][i];
+			cout << " ";
+		}
+		cout << endl;
 	}
 	cout << "Total="<< dp[cnt][t];
 	return 0;
