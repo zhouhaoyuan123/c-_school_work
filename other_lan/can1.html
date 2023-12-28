@@ -32,20 +32,76 @@
 </head>
 
 <body>
-	<canvas id="can"></canvas>
+	<canvas id="can" height=250 width=450></canvas>
+	<script src="init.js"></script>
 	<script>
-		var x = 0;
+		//gamemap
+		var gamemap = [[["c."],["."],["."],["."],["."],["."],["."],["."],["."]],
+					   [["-"],["-"],["-"],["-"],["-"],["-"],["-"],["-"],["-"]],
+					   [["*"],[" "],[" "],[" "],[" "],[" "],[" "],[" "],["!"]],
+					   [["-"],["-"],["-"],["-"],["-"],["-"],["-"],["-"],["-"]],
+					   [["."],["."],["."],["."],["."],["."],["."],["."],["."]],
+					]
+		//. place for tower  --- line for path * enemy init place ! village
+		//t tower c cursor
+		//----vars
+		var villagehp = 30;
+		var enemynumber = 3;
+		var money = 2;
+		var cx = 0,cy = 0;
+		var kl = false,kr = false,ku = false,kd = false;//left right up down
+		//----
+		//1m / enemy(tower) 10hp / enemy
+		//tower range is 2;
+		document.addEventListener("keydown",function(event) {
+			if (event.isComposing || event.keyCode === 229) {
+    			return;
+  			}
+			var tcx = cx,tcy = cy;
+			//l 37 u 38 r 39 d 40
+			switch(event.code) {
+				case "ArrowLeft" :
+					kl = true;
+					cx --;
+					break;
+				case "ArrowUp":
+					ku = true;
+					cy--;
+					break;
+				case "ArrowRight" :
+					kr = true;
+					cx++;
+					break;
+				case "ArrowDown" :
+					kd = true;
+					cy++;
+					break;
+			}
+			if(cy == 1) {
+				cy = 4;
+			}
+			else if(cy == 3) {
+				cy = 0;
+			}
+			if(0 <= cx && cx <= 8 && 0 <= cy && cy <= 4) {
+				//console.log(gamemap);
+				gamemap[tcy][tcx][0] = gamemap[tcy][tcx][0].replace("c","");
+				//console.log(gamemap);
+				gamemap[cy][cx][0] = "c" + gamemap[cy][cx][0];
+				//console.log(gamemap);
+			}
+			else {
+				cx = tcx;
+				cy = tcy;
+			}
+		})
 		function draw() {
 			var ctx= (document.getElementById("can")).getContext("2d");
-			ctx.fillStyle="#FF0000";
-			ctx.clearRect(x,0,150,75);
-			x+=10;
-			if(x == 200) {
-				x = 0;
-			}
-			ctx.fillRect(x,0,150,75);
-			setTimeout(draw,1000);
+			refresh(ctx,gamemap);
+			setTimeout(draw,0);
 		}
+		var ctx= (document.getElementById("can")).getContext("2d");
+		refresh(ctx,gamemap);
 		draw();
 	</script>
 </body>
