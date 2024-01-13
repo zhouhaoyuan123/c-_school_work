@@ -32,6 +32,17 @@
 </head>
 
 <body>
+	<script>
+		//. place for tower  --- line for path * enemy init place ! village
+		//t tower c cursor
+		//----vars
+		var villagehp = 30;
+		var enemynumber = 30;
+		var money = 2;
+		var cx = 0,cy = 0;
+		var kl = false,kr = false,ku = false,kd = false;//left right up down
+		//----
+	</script>
 	<canvas id="can" height=250 width=450></canvas>
 	<script src="init.js"></script>
 	<script>
@@ -42,15 +53,6 @@
 					   [["-"],["-"],["-"],["-"],["-"],["-"],["-"],["-"],["-"]],
 					   [["."],["."],["."],["."],["."],["."],["."],["."],["."]],
 					]
-		//. place for tower  --- line for path * enemy init place ! village
-		//t tower c cursor
-		//----vars
-		var villagehp = 30;
-		var enemynumber = 3;
-		var money = 2;
-		var cx = 0,cy = 0;
-		var kl = false,kr = false,ku = false,kd = false;//left right up down
-		//----
 		//1m / enemy(tower) 10hp / enemy
 		//tower range is 2;
 		document.addEventListener("keydown",function(event) {
@@ -76,6 +78,24 @@
 					kd = true;
 					cy++;
 					break;
+				case "Space" :
+					// try {
+					// 	console.log(gamemap[cx][cy][0].indexOf('t'));
+					// } catch (error) {
+					// 	console.log(gamemap[cx][cy][0]);
+					// }
+					if(gamemap[cy][cx][0].search('t') == -1 && money - 1 >= 0) {
+						//place tower
+						gamemap[cy][cx][0] = "t" + gamemap[cy][cx][0];
+						money--;
+					}
+					break;
+				case "Backspace" :
+					if(gamemap[cy][cx][0].indexOf('t') != -1) {
+						money++;
+						gamemap[cy][cx][0] = gamemap[cy][cx][0].replace("t","");
+					}
+					break;
 			}
 			if(cy == 1) {
 				cy = 4;
@@ -83,7 +103,7 @@
 			else if(cy == 3) {
 				cy = 0;
 			}
-			if(0 <= cx && cx <= 8 && 0 <= cy && cy <= 4) {
+			if(! (cx == tcx && cy == tcy) && 0 <= cx && cx <= 8 && 0 <= cy && cy <= 4) {
 				//console.log(gamemap);
 				gamemap[tcy][tcx][0] = gamemap[tcy][tcx][0].replace("c","");
 				//console.log(gamemap);
@@ -96,6 +116,11 @@
 			}
 		})
 		function draw() {
+			if(villagehp == 0) {
+				console.log("you lose!");
+				return;
+			}
+			operateEnemy();
 			var ctx= (document.getElementById("can")).getContext("2d");
 			refresh(ctx,gamemap);
 			setTimeout(draw,0);
