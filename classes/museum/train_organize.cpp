@@ -1,6 +1,6 @@
 #include <iostream>
 using namespace std;
-int num[1005];
+int num[10005];
 
 int main() {
 	int n;
