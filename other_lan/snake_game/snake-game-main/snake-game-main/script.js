@@ -5,6 +5,9 @@ const scoreElement = document.getElementById("score");
 //VARS
 var fps = 500;
 var jump = 1;
+var fpsp = 50;
+var jumpp = 10;
+var flag = false;
 
 const createRect = (x, y, width, height, color) => {
     canvasContext.fillStyle = color
@@ -17,6 +20,9 @@ const applePosition = () => {
 }
 
 const changeDirection = e => {
+    if(flag) {
+        return;
+    }
     if (e.key === "ArrowUp" && y != size) {
         x = 0;
         y = -size;
@@ -66,11 +72,11 @@ const init = () => {
     // When snake eat apple
     if (snakeX === appleX && snakeY === appleY) {
         eat.play();
-        fps += 20;
+        fps += fpsp;
         if(fps > 1000) {
             fps = 350;
         }
-        jump +=10;
+        jump +=jumpp;
         if(jump > canvas.width) {
             jump = 1;
         }
@@ -107,15 +113,19 @@ const init = () => {
 }
 
 const checkHitWall = () => {
-    if (snakeX == - size) {
+    flag = true;
+    if (snakeX > canvas.width) {
+        snakeX = 0;
+    } 
+    else if (snakeX < 0) {
         snakeX = canvas.width;
-    } else if (snakeX == canvas.width) {
-        snakeX = -size;
-    } else if (snakeY == - size) {
-        snakeY = canvas.height;
-    } else if (snakeY == canvas.height) {
-        snakeY = -size;
     }
+    if (snakeY > canvas.height) {
+        snakeY = 0;
+    } else if (snakeY < 0) {
+        snakeY = canvas.height;
+    }
+    flag = false;
 }
 
 applePosition();
