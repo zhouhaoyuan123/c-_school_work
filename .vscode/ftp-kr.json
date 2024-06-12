@@ -1,0 +1,16 @@
+{
+    "host": "127.0.0.1",
+    "username": "TOWER",
+    "password": "aaron123",
+    "remotePath": "/",
+    "protocol": "ftp",
+    "port": 2121,
+    "fileNameEncoding": "utf8",
+    "autoUpload": true,
+    "autoDelete": false,
+    "autoDownload": false,
+    "ignore": [
+        ".git",
+        "/.vscode"
+    ]
+}
