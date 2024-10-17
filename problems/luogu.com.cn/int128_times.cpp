@@ -4,6 +4,9 @@ using namespace std;
 __int128 read() {
     __int128 n = 0;
     char num = getchar();
+    while(!(num >= '0' && num <= '9')) {
+        num = getchar();
+    }
     while(num >= '0' && num <= '9') {
         n = n * 10 + (__int128)(num - '0');
         num = getchar();
@@ -11,6 +14,11 @@ __int128 read() {
     return n;
 }
 void write(__int128 n) {
+    if(n < 0) {
+        putchar('-');
+        write(-n);
+        return;
+    }
     if(n <= 9) {
         putchar(char(int(n) + '0'));
         return;
