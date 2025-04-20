@@ -7,9 +7,14 @@ int sequence[100005];
 bool vis [100005];
 int maxdepth;
 bool flag = 1;
+int n;
 void dfs(int step,int u,int index) {
 	if(u == 0) return;
 	if(!flag) return;
+	if(index > n) {
+		flag = 0;
+		return;
+	}
 	if(vis[u]) {
 		flag = 0;
 		return;
@@ -28,7 +33,6 @@ int main() {
 		memset(sequence,0,sizeof(sequence));
 		memset(vis,0,sizeof(vis));
 		maxdepth = 0;
-		int n;
 		cin>>n;
 		for(int i = 1;i<=n;i++) {
 			int x;
@@ -41,15 +45,15 @@ int main() {
 			cout << "No" << endl;
 			continue;
 		}
-		int tmp = pow(2,maxdepth) - 1;
-		flag = 1;
-		for(int i = tmp;i>n;i--) {
-			if(sequence[i] != 0) {
-				cout << "No"<<endl;
-				flag = false;
-				break;
-			}
-		}
+//		int tmp = int(ceil(log2(n + 1))) - 1;
+//		flag = 1;
+//		for(int i = tmp;i>n;i--) {
+//			if(sequence[i] != 0) {
+//				cout << "No"<<endl;
+//				flag = false;
+//				break;
+//			}
+//		}
 		if(flag) cout << "Yes" << endl;
 	}
 	return 0;
