@@ -3,47 +3,29 @@
 #include <cmath>
 
 using namespace std;
-bool ans[10000005];
-int prime[10000005];
-int cnt = 0;
-void calc(int n) {
-	memset(ans,1,sizeof(ans));
-	cnt = 0;
-	for(int i = 2;i<=n;i++) {
-		if(ans[i]) {
-			prime[++cnt] = i;
+long long n;
+long long prime[20] = {0,2,3,5,7,11,13,17,19,23,29};
+long long maxn = 0,indexn = 0;
+void dfs(int step,long long cnt,int j,long long num) {
+	if(step == 11) return;
+	long long tmp = 1;
+	for(int i = 1;i<=j;i++) {
+		tmp *= prime[step];
+		if(num * tmp > n) break;
+		if(num * tmp < indexn && cnt * (i + 1) == maxn) {
+			indexn = num * tmp;
 		}
-		for(int j = 1;j<=cnt && i * prime[j] <= n;j++) {
-			ans[i * prime[j]] = 0;
-			if(i % prime[j] == 0) break;
+		if(cnt * (i + 1) > maxn) {
+			maxn = cnt * (i + 1);
+			indexn = num * tmp;
 		}
+		dfs(step + 1,cnt * (i + 1),i,num * tmp);
 	}
 }
 
 int main() {
-	long long n;
 	cin>>n;
-	calc(n);
-	int tmp = log2(n),cnt2 = 2;
-	long long ans = pow(2,tmp);
-	while(tmp > 0) {
-		long long buf = 1;
-		while(tmp > 0 && cnt2 <= 5000005) {
-			if(ans / buf * prime[cnt2] <= n) {
-				break;
-			}
-			buf *= 2;
-			tmp --;
-			if(buf > prime[cnt2]) {
-				cnt2 ++;
-			}
-			if(ans / buf * prime[cnt2] <= n) {
-				break;
-			}
-		}
-		if(ans / buf * prime[cnt2] <= n)
-			ans = ans / buf * prime[cnt2];
-	}
-	cout << ans << endl;
+	dfs(1,1,32,1);
+	cout << indexn << endl;
 	return 0;
 }
